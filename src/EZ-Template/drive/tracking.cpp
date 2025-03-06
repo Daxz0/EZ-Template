@@ -207,20 +207,10 @@ void Drive::ez_tracking_task() {
       odom_current.y = r_pose.y;
     }
   }
-  // If both sides have a sensor (2 vert trackers or 0 trackers), let the user pick what side
-  //  defaults to left tracker and central ime
+  // If both sides of a sensor, use central xy
   else {
-    // If using IMEs, use central pose
-    if (is_tracker == DRIVE_INTEGRATED) {
-      odom_current.x = central_pose.x;
-      odom_current.y = central_pose.y;
-    } else if (odom_use_left) {
-      odom_current.x = l_pose.x;
-      odom_current.y = l_pose.y;
-    } else {
-      odom_current.x = r_pose.x;
-      odom_current.y = r_pose.y;
-    }
+    odom_current.x = central_pose.x;
+    odom_current.y = central_pose.y;
   }
 
   odom_current.theta = drive_imu_get();
