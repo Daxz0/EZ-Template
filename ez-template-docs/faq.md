@@ -26,3 +26,8 @@ You can follow this tutorial on configuring the [Drive Constructor](https://ez-r
 
 You can try to mediate slight IMU drift by tuning the [IMU Scaler](https://ez-robotics.github.io/EZ-Template/tutorials/tuning_imu_scale).
 
+## Why is my program encountering "DATA ABORT EXCEPTION"
+
+This ooccurs most often due to either an issue with a improperly formatted SD, or a repeating user task with no delay.
+
+![Image](dataaborterrorexample.png)
