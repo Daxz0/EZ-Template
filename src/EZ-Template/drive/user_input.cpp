@@ -8,6 +8,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "EZ-Template/drive/drive.hpp"
 #include "pros/misc.h"
 
+namespace ez {
 void Drive::opcontrol_arcade_scaling(bool enable) { arcade_vector_scaling = enable; }
 bool Drive::opcontrol_arcade_scaling_enabled() { return arcade_vector_scaling; }
 
@@ -355,3 +356,4 @@ void Drive::opcontrol_arcade_flipped(e_type stick_type) {
   // Set robot to l_stick and r_stick, check joystick threshold, set active brake
   opcontrol_joystick_threshold_iterate(fwd_stick + turn_stick, fwd_stick - turn_stick);
 }
+}  // namespace ez
