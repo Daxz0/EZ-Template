@@ -64,7 +64,7 @@ inline pros::MotorGroup intake({10, -11});  // Negative port will reverse the m
 ## Button Control
 To move a motor we type 
 ```cpp
-motor name.move(a number between -127 and 127);
+motor_name.move(a number between -127 and 127);
 ```
 
 So to make the intake spin at full speed forward, we would type 
