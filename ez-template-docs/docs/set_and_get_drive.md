@@ -653,7 +653,7 @@ void drive_imu_reset(double new_heading = 0);
 
 
 ### drive_imu_get()
-Returns the current imu rotation value in degrees.    
+Returns the current imu heading rotation value in degrees.    
 <Tabs
   groupId="drive_imu_get"
   defaultValue="proto"
