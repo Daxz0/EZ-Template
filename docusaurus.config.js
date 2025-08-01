@@ -261,7 +261,7 @@ const config = {
                 href: 'https://github.com/EZ-Robotics',
               },
               {
-                label: 'Youtube',
+                label: 'YouTube',
                 href: 'https://www.youtube.com/@roboticsisez'
               },
             ],
