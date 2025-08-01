@@ -172,7 +172,7 @@ const config = {
       announcementBar: {
         id: 'new_version',
         content:
-          '🥳 <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=0-yhN4ntpAA">Check out FLUSHER Pre-Season Reveal</a> 🥳',
+          '🤖 <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=0-yhN4ntpAA">Check out FLUSHER Pre-Season Reveal</a> 📸',
         backgroundColor: '#FDFD96',
         textColor: '#000000',
         isCloseable: true,
@@ -259,6 +259,10 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/EZ-Robotics',
+              },
+              {
+                label: 'YouTube',
+                href: 'https://www.youtube.com/@roboticsisez'
               },
             ],
           },
