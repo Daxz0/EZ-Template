@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 ## Tracking Wheels 
 
-
+For a more in depth guide to Tracking Wheels look at this [guide](/docs/tracking_wheels).
 
 
 ### odom_tracker_left_set()
