@@ -160,7 +160,7 @@ void Drive::tracking_wheels_tracking() {
   r_last = r_current;
 
   // Angle and velocity
-  float t_current = -ez::util::to_rad(drive_imu_get());  // negative for math standard
+  float t_current = -ez::util::to_rad(drive_angle_get());  // negative for math standard
   float t_ = t_current - t_last;
   t_last = t_current;
 
@@ -207,7 +207,7 @@ void Drive::tracking_wheels_tracking() {
     odom_current.y = central_pose.y;
   }
 
-  odom_current.theta = drive_imu_get();
+  odom_current.theta = drive_angle_get();
 
   // printf("odom_ime_track_width_left %f   l_ %f   r_ %f   t_current %f\n", odom_ime_track_width_left, r_, t_, t_current);
 
