@@ -6,8 +6,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #include "EZ-Template/api.hpp"
 
-using namespace ez;
+// using namespace ez;
 
+namespace ez {
 // Constructor
 slew::slew() {}
 slew::slew(double distance, int minimum_speed) {
@@ -59,3 +60,4 @@ double slew::iterate(double current) {
 
   return last_output;
 }
+}  // namespace ez

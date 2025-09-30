@@ -7,6 +7,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "EZ-Template/drive/drive.hpp"
 #include "okapi/api/units/QAngle.hpp"
 
+namespace ez {
 /////
 // Set constants
 /////
@@ -492,3 +493,4 @@ void Drive::raw_pid_odom_ptp_set(odom imovement, bool slew_on) {
   leftPID.exit = xyPID.exit;  // Switch over to xy pid exits
   rightPID.exit = xyPID.exit;
 }
+}  // namespace ez

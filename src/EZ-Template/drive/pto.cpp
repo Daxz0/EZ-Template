@@ -9,6 +9,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #include "EZ-Template/drive/drive.hpp"
 
+namespace ez {
 bool Drive::pto_check(pros::Motor check_if_pto) {
   auto does_exist = std::find(pto_active.begin(), pto_active.end(), check_if_pto.get_port());
   if (does_exist != pto_active.end())
@@ -51,3 +52,4 @@ void Drive::pto_toggle(std::vector<pros::Motor> pto_list, bool toggle) {
   else
     pto_remove(pto_list);
 }
+}  // namespace ez

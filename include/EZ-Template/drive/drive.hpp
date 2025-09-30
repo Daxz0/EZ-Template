@@ -20,7 +20,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "pros/motor_group.hpp"
 #include "pros/motors.h"
 
-using namespace ez;
+//using namespace ez;
 
 namespace ez {
 class Drive {

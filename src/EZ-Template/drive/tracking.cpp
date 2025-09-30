@@ -8,8 +8,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "EZ-Template/tracking_wheel.hpp"
 #include "EZ-Template/util.hpp"
 
-using namespace ez;
+// using namespace ez;
 
+namespace ez {
 // Sets and gets
 void Drive::odom_x_set(double x) {
   odom_current.x = x;
@@ -239,3 +240,4 @@ void Drive::ez_tracking_task() {
     was_odom_just_set = false;
   xy_last_fake = xy_current_fake;
 }
+}  // namespace ez

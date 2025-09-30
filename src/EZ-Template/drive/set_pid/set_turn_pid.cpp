@@ -7,6 +7,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "EZ-Template/api.hpp"
 #include "okapi/api/units/QAngle.hpp"
 
+namespace ez {
 /////
 // Sets turn constants
 /////
@@ -195,3 +196,4 @@ void Drive::pid_turn_set(pose itarget, drive_directions dir, int speed, e_angle_
 
   drive_mode_set(TURN_TO_POINT);
 }
+}  // namespace ez

@@ -8,8 +8,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "pros/misc.h"
 #include "util.hpp"
 
-using namespace ez;
+// using namespace ez;
 
+namespace ez {
 // Constructor for one piston
 Piston::Piston(int input_port, bool default_state)
     : piston(input_port, default_state) {
@@ -56,3 +57,5 @@ void Piston::buttons(int active, int deactive) {
 void Piston::buttons(pros::controller_digital_e_t active, pros::controller_digital_e_t deactive) {
   buttons(master.get_digital(active), master.get_digital(deactive));
 }
+
+} // namespace ez

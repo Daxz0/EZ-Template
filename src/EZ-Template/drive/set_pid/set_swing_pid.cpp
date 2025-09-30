@@ -7,6 +7,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "EZ-Template/api.hpp"
 #include "okapi/api/units/QAngle.hpp"
 
+namespace ez {
 /////
 // Sets swing constants
 /////
@@ -352,3 +353,4 @@ void Drive::pid_swing_set(e_swing type, double target, int speed, int opposite_s
   // Run task
   drive_mode_set(SWING);
 }
+}  // namespace ez
