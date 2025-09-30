@@ -152,6 +152,9 @@ void Drive::drive_defaults_set() {
   std::cout << std::fixed;
   std::cout << std::setprecision(2);
 
+  // Set tracking task, user can override this if they want
+  odom_tracking_set(std::bind(&ez::Drive::tracking_wheels_tracking, this));
+
   // PID Constants
   pid_drive_constants_set(20.0, 0.0, 100.0);
   pid_heading_constants_set(11.0, 0.0, 20.0);
@@ -195,6 +198,14 @@ void Drive::drive_defaults_set() {
   // Left / Right modify buttons
   opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);
   opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
+
+  //Default PID Tuner buttons
+  pid_tuner_button_increment_set(pros::E_CONTROLLER_DIGITAL_A);
+  pid_tuner_button_decrement_set(pros::E_CONTROLLER_DIGITAL_Y);
+  pid_tuner_button_up_set(pros::E_CONTROLLER_DIGITAL_UP);
+  pid_tuner_button_down_set(pros::E_CONTROLLER_DIGITAL_DOWN);
+  pid_tuner_button_left_set(pros::E_CONTROLLER_DIGITAL_LEFT);
+  pid_tuner_button_right_set(pros::E_CONTROLLER_DIGITAL_RIGHT);
 
   // Enable auto printing and drive motors moving
   pid_drive_toggle(true);
@@ -429,9 +440,9 @@ pros::motor_brake_mode_e_t Drive::drive_brake_get() {
   return CURRENT_BRAKE;
 }
 
-void Drive::initialize() {
+void Drive::initialize(bool run_loading_animation) {
   opcontrol_curve_sd_initialize();
-  drive_imu_calibrate();
+  drive_imu_calibrate(run_loading_animation);
   drive_sensor_reset();
 }
 
