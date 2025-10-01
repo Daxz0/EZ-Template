@@ -1453,6 +1453,9 @@ class Drive {
    */
   double drive_imu_scaler_get();
 
+  std::map<int, double> imu_scale_map;
+  std::map<int, std::pair<double, int>> prev_imu_values;
+
   /*
    * Sets a new IMU scaling factor for all IMUs.
    *
