@@ -23,6 +23,9 @@ ez::Drive chassis(
 // ez::tracking_wheel horiz_tracker(8, 2.75, 4.0);  // This tracking wheel is perpendicular to the drive wheels
 // ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
+ez::tracking_wheel left_tracker({'A', 'B'}, 2.75, 4.0);
+ez::tracking_wheel right_tracker({'C', 'D'}, 2.75, 4.0);
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -43,6 +46,9 @@ void initialize() {
   //  - change `left` to `right` if the tracking wheel is to the right of the centerline
   //  - ignore this if you aren't using a vertical tracker
   // chassis.odom_tracker_left_set(&vert_tracker);
+
+  chassis.odom_tracker_left_set(&left_tracker);
+  chassis.odom_tracker_right_set(&right_tracker);
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
@@ -143,8 +149,8 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
   std::string tracker_value = "", tracker_width = "";
   // Check if the tracker exists
   if (tracker != nullptr) {
-    tracker_value = name + " tracker: " + util::to_string_with_precision(tracker->get());             // Make text for the tracker value
-    tracker_width = "  width: " + util::to_string_with_precision(tracker->distance_to_center_get());  // Make text for the distance to center
+    tracker_value = name + " tracker: " + ez::util::to_string_with_precision(tracker->get());             // Make text for the tracker value
+    tracker_width = "  width: " + ez::util::to_string_with_precision(tracker->distance_to_center_get());  // Make text for the distance to center
   }
   ez::screen_print(tracker_value + tracker_width, line);  // Print final tracker text
 }
@@ -163,9 +169,9 @@ void ez_screen_task() {
         // If we're on the first blank page...
         if (ez::as::page_blank_is_on(0)) {
           // Display X, Y, and Theta
-          ez::screen_print("x: " + util::to_string_with_precision(chassis.odom_x_get()) +
-                               "\ny: " + util::to_string_with_precision(chassis.odom_y_get()) +
-                               "\na: " + util::to_string_with_precision(chassis.odom_theta_get()),
+          ez::screen_print("x: " + ez::util::to_string_with_precision(chassis.odom_x_get()) +
+                               "\ny: " + ez::util::to_string_with_precision(chassis.odom_y_get()) +
+                               "\na: " + ez::util::to_string_with_precision(chassis.odom_theta_get()),
                            1);  // Don't override the top Page line
 
           // Display all trackers that are being used

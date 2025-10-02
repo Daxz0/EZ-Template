@@ -11,6 +11,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "pros/llemu.hpp"
 #include "pros/misc.h"
 
+namespace ez {
 // Is the PID Tuner enabled?
 bool Drive::pid_tuner_enabled() { return pid_tuner_on; }
 
@@ -21,6 +22,22 @@ bool Drive::pid_tuner_full_enabled() { return is_full_pid_tuner_enabled; }
 // Toggle printing to terminal
 void Drive::pid_tuner_print_terminal_set(bool input) { pid_tuner_terminal_b = input; }
 bool Drive::pid_tuner_print_terminal_enabled() { return pid_tuner_terminal_b; }
+
+// Set used buttons
+void Drive::pid_tuner_button_increment_set(pros::controller_digital_e_t increase) { pid_tuner_increase = increase; }
+void Drive::pid_tuner_button_decrement_set(pros::controller_digital_e_t decrease) { pid_tuner_decrease = decrease; }
+void Drive::pid_tuner_button_up_set(pros::controller_digital_e_t pageUp) { pid_tuner_pageUp = pageUp; }
+void Drive::pid_tuner_button_down_set(pros::controller_digital_e_t pageDown) { pid_tuner_pageDown = pageDown; }
+void Drive::pid_tuner_button_left_set(pros::controller_digital_e_t pageLeft) { pid_tuner_pageLeft = pageLeft; }
+void Drive::pid_tuner_button_right_set(pros::controller_digital_e_t pageRight) { pid_tuner_pageRight = pageRight; }
+
+// Get used buttons
+pros::controller_digital_e_t Drive::pid_tuner_button_increment_get() { return pid_tuner_increase; }
+pros::controller_digital_e_t Drive::pid_tuner_button_decrement_get() { return pid_tuner_decrease; }
+pros::controller_digital_e_t Drive::pid_tuner_button_up_get() { return pid_tuner_pageUp; }
+pros::controller_digital_e_t Drive::pid_tuner_button_down_get() { return pid_tuner_pageDown; }
+pros::controller_digital_e_t Drive::pid_tuner_button_left_get() { return pid_tuner_pageLeft; }
+pros::controller_digital_e_t Drive::pid_tuner_button_right_get() { return pid_tuner_pageRight; }
 
 // Initialize the brain screen
 void Drive::pid_tuner_brain_init() {
@@ -86,9 +103,19 @@ void Drive::pid_tuner_toggle() {
     pid_tuner_disable();
 }
 
+// Add PIDs to the Tuner
+void Drive::pid_tuner_add(const_and_name new_pid_and_name) {
+  pid_tuner_pids.push_back(new_pid_and_name);
+  pid_tuner_full_pids.push_back(new_pid_and_name);
+}
+
 // Print PID Tuner
 void Drive::pid_tuner_print() {
   if (!pid_tuner_on) return;
+
+  // Ensure that the user column is within the size of the pid tuner
+  if (column > used_pid_tuner_pids->size() - 1)
+    column = 0;
 
   double kp = used_pid_tuner_pids->at(column).consts->kp;
   double ki = used_pid_tuner_pids->at(column).consts->ki;
@@ -176,12 +203,12 @@ void Drive::pid_tuner_iterate() {
   }
 
   // Up / Down for Rows
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+  if (master.get_digital_new_press(pid_tuner_pageRight)) {
     column++;
     if (column > used_pid_tuner_pids->size() - 1)
       column = 0;
     pid_tuner_print();
-  } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+  } else if (master.get_digital_new_press(pid_tuner_pageLeft)) {
     column--;
     if (column < 0)
       column = used_pid_tuner_pids->size() - 1;
@@ -189,12 +216,12 @@ void Drive::pid_tuner_iterate() {
   }
 
   // Left / Right for Columns
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+  if (master.get_digital_new_press(pid_tuner_pageDown)) {
     row++;
     if (row > 3)
       row = 0;
     pid_tuner_print();
-  } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+  } else if (master.get_digital_new_press(pid_tuner_pageUp)) {
     row--;
     if (row < 0)
       row = 3;
@@ -202,11 +229,12 @@ void Drive::pid_tuner_iterate() {
   }
 
   // Increase / Decrease constant
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+  if (master.get_digital_new_press(pid_tuner_increase)) {
     pid_tuner_value_increase();
     pid_tuner_print();
-  } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+  } else if (master.get_digital_new_press(pid_tuner_decrease)) {
     pid_tuner_value_decrease();
     pid_tuner_print();
   }
 }
+}  // namespace ez

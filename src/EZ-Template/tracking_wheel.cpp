@@ -8,8 +8,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #include "EZ-Template/util.hpp"
 
-using namespace ez;
+// using namespace ez;
 
+namespace ez {
 // ADI Encoder
 tracking_wheel::tracking_wheel(std::vector<int> ports, double wheel_diameter, double distance_to_center, double ratio)
     : adi_encoder(abs(ports[0]), abs(ports[1]), util::reversed_active(ports[0])),
@@ -93,3 +94,5 @@ void tracking_wheel::reset() {
     return;
   }
 }
+}  
+// namespace ez
