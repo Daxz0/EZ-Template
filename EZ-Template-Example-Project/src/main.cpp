@@ -150,6 +150,26 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
 }
 
 /**
+ * A basic display for chassis motors.
+ * 
+ */
+
+void ez_motor_temperatures(){
+  for(int i = 0; i++, i < 3){ //Print out left motors
+  ez::screen_print("Motor " + std::to_string(chassis.left_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.left_motors[0].get_temperature()) + " *C", i);//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
+  }
+  for(int i = 0; i++, i < 3){ //Print out right motors
+  ez::screen_print("Motor " + std::to_string(chassis.right_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.right_motors[0].get_temperature()) + " *C", (i+3));//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
+  }
+  /**                   Temperature key
+*  Level 1 - Temp greater than 55 deg C or 131 deg F - 50% Power
+*  Level 2 - Temp greater than 60 deg C or 140 deg F - 25% Power - Less than 25% power is useless on a comp robot
+*  Level 3 - Temp greater than 65 deg C or 149 deg F - 12.5% Power
+*  Level 4 - Temp greater than 70 deg C or 158 deg F - 0% Power
+*/
+}
+
+/**
  * Ez screen task
  * Adding new pages here will let you view them during user control or autonomous
  * and will help you debug problems you're having
@@ -174,6 +194,12 @@ void ez_screen_task() {
           screen_print_tracker(chassis.odom_tracker_back, "b", 6);
           screen_print_tracker(chassis.odom_tracker_front, "f", 7);
         }
+        if (ez::as::page_blank_is_on(1)){
+          ez_motor_temperatures();
+        }
+        // . . .
+        // Add your own blank pages here!
+        // . . .
       }
     }
 
