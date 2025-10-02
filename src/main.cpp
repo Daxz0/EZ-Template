@@ -8,8 +8,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-5, -6, -7},  // Left Chassis Ports (negative port will reverse it!)
-    {11, 15, 16},  // Right Chassis Ports (negative port will reverse it!)
+    {-5, -6, -7, -8},  // Left Chassis Ports (negative port will reverse it!)
+    {11, 15, 1, 17},  // Right Chassis Ports (negative port will reverse it!)
 
     {20, 21},  // IMU Port
     4.125,     // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -198,6 +198,10 @@ void ez_screen_task() {
           screen_print_tracker(chassis.odom_tracker_front, "f", 7);
         }
         else if(ez::as::page_blank_is_on(1)) ez_motor_temperatures();
+        
+        // . . .
+        // Add your own blank pages here!
+        // . . .
       }
     }
 
