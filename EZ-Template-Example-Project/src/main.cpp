@@ -154,20 +154,24 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
  * 
  */
 
-void ez_motor_temperatures(){
-  for(int i = 0; i++, i < 3){ //Print out left motors
-  ez::screen_print("Motor " + std::to_string(chassis.left_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.left_motors[(i-1)].get_temperature()) + " *C", i);//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
+void ez_motor_temperatures(){ // A basic display for chassis motors.
+  if(chassis.left_motors.size() * 2 < 12){
+    for(int i = 0; i < chassis.left_motors.size(); i++){
+      ez::screen_print("Motor " + std::to_string(chassis.left_motors[i].get_port()) + ": " +
+      std::to_string(static_cast<int>(chassis.left_motors[i].get_temperature())) + " *C*\t" + "Motor " + 
+      std::to_string(chassis.right_motors[i].get_port()) + ": " + 
+      std::to_string(static_cast<int>(chassis.right_motors[i].get_temperature())) +" *C", 
+      i); //i iterates the line number
+    }
   }
-  for(int i = 0; i++, i < 3){ //Print out right motors
-  ez::screen_print("Motor " + std::to_string(chassis.right_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.right_motors[(i-1)].get_temperature()) + " *C", (i+3));//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
-  }
+}
   /**                   Temperature key
 *  Level 1 - Temp greater than 55 deg C or 131 deg F - 50% Power
 *  Level 2 - Temp greater than 60 deg C or 140 deg F - 25% Power - Less than 25% power is useless on a comp robot
 *  Level 3 - Temp greater than 65 deg C or 149 deg F - 12.5% Power
 *  Level 4 - Temp greater than 70 deg C or 158 deg F - 0% Power
 */
-}
+
 
 /**
  * Ez screen task
