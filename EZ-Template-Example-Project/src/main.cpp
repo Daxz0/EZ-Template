@@ -156,10 +156,10 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
 
 void ez_motor_temperatures(){
   for(int i = 0; i++, i < 3){ //Print out left motors
-  ez::screen_print("Motor " + std::to_string(chassis.left_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.left_motors[0].get_temperature()) + " *C", i);//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
+  ez::screen_print("Motor " + std::to_string(chassis.left_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.left_motors[(i-1)].get_temperature()) + " *C", i);//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
   }
   for(int i = 0; i++, i < 3){ //Print out right motors
-  ez::screen_print("Motor " + std::to_string(chassis.right_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.right_motors[0].get_temperature()) + " *C", (i+3));//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
+  ez::screen_print("Motor " + std::to_string(chassis.right_motors[(i-1)].get_port())  + ": " + std::to_string(chassis.right_motors[(i-1)].get_temperature()) + " *C", (i+3));//The number designation is the array value for chassis config (0 = first motor declared, 1 = 2nd motor, etc)
   }
   /**                   Temperature key
 *  Level 1 - Temp greater than 55 deg C or 131 deg F - 50% Power
