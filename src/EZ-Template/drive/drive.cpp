@@ -15,7 +15,7 @@ using namespace ez;
 
 // Constructor for integrated encoders
 Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports,
-             int imu_port, double wheel_diameter, double ticks, double ratio)
+             int imu_port, int speed, double wheel_diameter, double ticks, double ratio)
     : imu(imu_port),
       left_tracker(-1, -1, false),   // Default value
       right_tracker(-1, -1, false),  // Default value
@@ -43,11 +43,13 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
   TICK_PER_INCH = drive_tick_per_inch();
 
   drive_defaults_set();
+
+  opcontrol_speed_max = (double)std::max(0, std::min(127, speed));
 }
 
 // Constructor for tracking wheels plugged into the brain
 Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports,
-             int imu_port, double wheel_diameter, double ticks, double ratio,
+             int imu_port, int speed, double wheel_diameter, double ticks, double ratio,
              std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports)
     : imu(imu_port),
       left_tracker(abs(left_tracker_ports[0]), abs(left_tracker_ports[1]), util::reversed_active(left_tracker_ports[0])),
@@ -76,11 +78,12 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
   TICK_PER_INCH = drive_tick_per_inch();
 
   drive_defaults_set();
+  opcontrol_speed_max = (double)std::max(0, std::min(127, speed));
 }
 
 // Constructor for tracking wheels plugged into a 3 wire expander
 Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports,
-             int imu_port, double wheel_diameter, double ticks, double ratio,
+             int imu_port, int speed, double wheel_diameter, double ticks, double ratio,
              std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports, int expander_smart_port)
     : imu(imu_port),
       left_tracker({expander_smart_port, abs(left_tracker_ports[0]), abs(left_tracker_ports[1])}, util::reversed_active(left_tracker_ports[0])),
@@ -109,11 +112,12 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
   TICK_PER_INCH = drive_tick_per_inch();
 
   drive_defaults_set();
+  opcontrol_speed_max = (double)std::max(0, std::min(127, speed));
 }
 
 // Constructor for rotation sensors
 Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports,
-             int imu_port, double wheel_diameter, double ratio,
+             int imu_port, int speed, double wheel_diameter, double ratio,
              int left_rotation_port, int right_rotation_port)
     : imu(imu_port),
       left_tracker(-1, -1, false),   // Default value
@@ -144,8 +148,28 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
   TICK_PER_INCH = drive_tick_per_inch();
 
   drive_defaults_set();
+  opcontrol_speed_max = (double)std::max(0, std::min(127, speed));
 }
+void Drive::adjust_speed(int speed) {
+  // Clamp to valid PROS motor range
+  if (speed < 0)
+    speed = 0;
+  if (speed > 127)
+    speed = 127;
 
+  // Use existing setter to update opcontrol max speed used by user input
+  opcontrol_speed_max_set(speed);
+
+  // Update slew max speeds so slew respects the new max (if applicable)
+  slew_left.speed_max_set((double)speed);
+  slew_right.speed_max_set((double)speed);
+  slew_forward.speed_max_set((double)speed);
+  slew_backward.speed_max_set((double)speed);
+  slew_turn.speed_max_set((double)speed);
+  slew_swing_forward.speed_max_set((double)speed);
+  slew_swing_backward.speed_max_set((double)speed);
+  slew_swing.speed_max_set((double)speed);
+}
 void Drive::drive_defaults_set() {
   imu.set_data_rate(5);
 

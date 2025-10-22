@@ -395,14 +395,18 @@ class Drive {
    *        input {-3, 4...}. make ports negative if reversed
    * \param imu_port
    *        port the IMU is plugged into
-   * \param wheel_diameter
-   *        diameter of your drive wheels
-   * \param ticks
-   *        motor cartridge RPM
-   * \param ratio
-   *        external gear ratio, wheel gear / motor gear
-   */
-  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ticks, double ratio = 1.0);
+   * \param speed
+   *        drive speed
+  * \param wheel_diameter
+  *        diameter of your drive wheels
+  * \param ticks
+  *        motor cartridge RPM
+  * \param ratio
+  *        external gear ratio, wheel gear / motor gear
+  * \param speed
+  *        speed controller
+  */
+  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, int speed = 127, double wheel_diameter = 4.0, double ticks = 600.0, double ratio = 1.0);
 
   /**
    * Creates a Drive Controller using encoders plugged into the brain.
@@ -415,6 +419,8 @@ class Drive {
    *        port the IMU is plugged into
    * \param wheel_diameter
    *        diameter of your sensored wheel
+   * \param speed
+   *        speed controller
    * \param ticks
    *        ticks per revolution of your encoder
    * \param ratio
@@ -424,7 +430,7 @@ class Drive {
    * \param right_tracker_ports
    *        input {3, 4}. make ports negative if reversed
    */
-  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ticks, double ratio, std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports) __attribute__((deprecated("Use the integrated encoder constructor with odom_tracker_left_set() and odom_tracker_right_set() instead!")));
+  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, int speed, double wheel_diameter, double ticks, double ratio, std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports) __attribute__((deprecated("Use the integrated encoder constructor with odom_tracker_left_set() and odom_tracker_right_set() instead!")));
 
   /**
    * Creates a Drive Controller using encoders plugged into a 3 wire expander.
@@ -448,7 +454,7 @@ class Drive {
    * \param expander_smart_port
    *        port the expander is plugged into
    */
-  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ticks, double ratio, std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports, int expander_smart_port) __attribute__((deprecated("Use the integrated encoder constructor with odom_tracker_left_set() and odom_tracker_right_set() instead!")));
+  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, int speed, double wheel_diameter, double ticks, double ratio, std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports, int expander_smart_port) __attribute__((deprecated("Use the integrated encoder constructor with odom_tracker_left_set() and odom_tracker_right_set() instead!")));
 
   /**
    * Creates a Drive Controller using rotation sensors.
@@ -468,7 +474,7 @@ class Drive {
    * \param right_tracker_port
    *        make ports negative if reversed
    */
-  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ratio, int left_rotation_port, int right_rotation_port) __attribute__((deprecated("Use the integrated encoder constructor with odom_tracker_left_set() and odom_tracker_right_set() instead!")));
+  Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, int speed, double wheel_diameter, double ratio, int left_rotation_port, int right_rotation_port) __attribute__((deprecated("Use the integrated encoder constructor with odom_tracker_left_set() and odom_tracker_right_set() instead!")));
 
   /**
    * Sets drive defaults.
@@ -3396,6 +3402,16 @@ class Drive {
    * Returns the max speed for user control.
    */
   int opcontrol_speed_max_get();
+
+  /**
+   * Adjusts the maximum user control speed at runtime.
+   *
+   * 
+   * 
+   * \param speed
+   *        new max speed (0-127)
+   */
+  void adjust_speed(int speed);
 
   /**
    * Toggles vector scaling for arcade control.  True enables, false disables.
