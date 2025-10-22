@@ -12,7 +12,7 @@ ez::Drive chassis(
     {17, 19, 20},  // Right Chassis Ports (negative port will reverse it!)
 
     0,      // IMU Port
-    50, // drive speed
+    127, // drive speed
     3.25,   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     333.3);  // Wheel RPM = cartridge * (motor gear / wheel gear)
 
@@ -254,15 +254,29 @@ void opcontrol() {
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
+    // Quick preset buttons (existing behavior)
     if (master.get_digital_new_press(DIGITAL_DOWN)){
       chassis.speed = 50;
-
     }
     else if (master.get_digital_new_press(DIGITAL_UP)){
       chassis.speed = 127;
-
     }
 
-    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+    if (master.get_digital_new_press(DIGITAL_LEFT)) {
+      int cur = chassis.opcontrol_speed_max_get();
+      cur = std::max(0, cur - 10);
+      chassis.adjust_speed(cur);
+      master.rumble(".");
+      ez::screen_print("Max speed: " + util::to_string_with_precision(cur), 1);
+    }
+    if (master.get_digital_new_press(DIGITAL_RIGHT)) {
+      int cur = chassis.opcontrol_speed_max_get();
+      cur = std::min(127, cur + 10);
+      chassis.adjust_speed(cur);
+      master.rumble(".");
+      ez::screen_print("Max speed: " + util::to_string_with_precision(cur), 1);
+    }
+
+    pros::delay(ez::util::DELAY_TIME);
   }
 }
