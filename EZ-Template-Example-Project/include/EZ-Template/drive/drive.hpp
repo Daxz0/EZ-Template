@@ -395,13 +395,17 @@ class Drive {
    *        input {-3, 4...}. make ports negative if reversed
    * \param imu_port
    *        port the IMU is plugged into
-   * \param wheel_diameter
-   *        diameter of your drive wheels
-   * \param ticks
-   *        motor cartridge RPM
-   * \param ratio
-   *        external gear ratio, wheel gear / motor gear
-   */
+   * \param speed
+   *        drive speed
+  * \param wheel_diameter
+  *        diameter of your drive wheels
+  * \param ticks
+  *        motor cartridge RPM
+  * \param ratio
+  *        external gear ratio, wheel gear / motor gear
+  * \param speed
+  *        speed controller
+  */
   Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, int speed = 127, double wheel_diameter = 4.0, double ticks = 600.0, double ratio = 1.0);
 
   /**
@@ -415,6 +419,8 @@ class Drive {
    *        port the IMU is plugged into
    * \param wheel_diameter
    *        diameter of your sensored wheel
+   * \param speed
+   *        speed controller
    * \param ticks
    *        ticks per revolution of your encoder
    * \param ratio
@@ -3396,6 +3402,16 @@ class Drive {
    * Returns the max speed for user control.
    */
   int opcontrol_speed_max_get();
+
+  /**
+   * Adjusts the maximum user control speed at runtime.
+   *
+   * 
+   * 
+   * \param speed
+   *        new max speed (0-127)
+   */
+  void adjust_speed(int speed);
 
   /**
    * Toggles vector scaling for arcade control.  True enables, false disables.
